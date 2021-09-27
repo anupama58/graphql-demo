@@ -14,8 +14,8 @@ type User {
 }
 
 type AuthToken {
-    message: String!
-    token: String!
+    message: String
+    token: String
 }
 type Mutation {
     signup(
