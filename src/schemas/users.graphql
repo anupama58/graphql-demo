@@ -1,0 +1,39 @@
+type User {
+ userId: String!
+ firstname: String
+ lastname:String
+ username:String
+ email:String
+ mobileno:String
+}
+
+type AuthToken {
+    message: String
+    token: String
+}
+
+type greetUserResponse {
+    message: String!,
+    statusCode: Int!
+}
+
+type Query {
+    users: [User]
+    user(id: ID!): User,
+    greetUser(name: String!): greetUserResponse
+}
+type Mutation {
+    signup(
+        firstname: String!
+        lastname: String! 
+        username: String!
+        email: String!
+        password: String!
+        mobile:String!
+    ):AuthToken
+    login(
+        username: String!
+        password: String!
+    ):AuthToken
+
+}

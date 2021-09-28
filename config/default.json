@@ -1,0 +1,5 @@
+{
+    "BASE_URL": "http://localhost", 
+    "HTTP_PORT": 4000,
+    "HTTP_TIMEOUT": 3000000
+}

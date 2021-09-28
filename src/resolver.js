@@ -1,13 +1,16 @@
-import fetch from 'node-fetch';
+const path = require('path');
+const { mergeResolvers } = require('@graphql-tools/merge');
+const { loadFilesSync } = require('@graphql-tools/load-files');
 
-const resolvers = {
-    Query: {
-        user:() => {
-            return fetch(`${baseURL}/user`)
-            .then(res => res.json())
-            .then(data => console.log(data))
-        }
-    },
+const resolversArray = loadFilesSync(path.join(__dirname, './resolvers'), {
+    recursive: true,
+    extensions: ['.js']
+})
+
+const resolvers = mergeResolvers(resolversArray, {
+    all: true
+})
+
+module.exports = {
+    resolvers
 }
-
-export default resolvers
