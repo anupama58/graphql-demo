@@ -1,55 +1,46 @@
-const API_URL = config.get('API_URL');
-const PORT = config.get("HTTP_PORT") || process.env.HTTP_PORT;
-
 const resolvers = {
-    Query: {
-        greetUser (root, args, context, info) {
-            try {
-                return {
-                    message: `Welcome, ${args.name}`,
-                    statusCode: 200
-                }
-            } catch (error) {
-                return {
-                    message: error.message,
-                    statusCode: error.statusCode
-                }
-            }
-        },
-        getUser(root,args,context,info){
-            try{
-                // const data  = await axios.get(
-                //     "https://jsonplaceholder.typicode.com/users"
-                // );
-                // users = data.map(user => user.name);
-
-                // const data = await axios.get(`${BASE_URL}:${PORT}/user`, {
-                //     query: `query getUser($id: Int!) {
-                //       getUserCity(userID: $id){
-                //         id
-                //       }
-                //     }`,
-                //     variables: {
-                //       id: 2,
-                //     }},  
-                //     {
-                //         headers: {
-                //             'Content-Type': 'application/json'
-                //         }
-                //     })
-            
-
-            }catch(error){
-                return{
-
-                }
-
-            }
-        }
-
-
+  Query: {
+    greetUser(root, args, context, info) {
+      try {
+        return {
+          message: `Welcome, ${args.name}`,
+          statusCode: 200,
+        };
+      } catch (error) {
+        return {
+          message: error.message,
+          statusCode: error.statusCode,
+        };
+      }
     },
-    Mutation: {}
+    user: async (_, { id }, { dataSources }) => {
+      return dataSources.userApi.editUser(id);
+    },
+  },
+  Mutation: {
+    userLogin: async (_, { username, password }, { dataSources }) => {
+      const response = {
+        message: "Something wen wrong, Please try later",
+        token: null,
+        code: 500,
+      };
+      try {
+        const { userLogin: result } = await dataSources.userApi.login(username, password);
+        console.log("login api response", result);
+
+        response.message = result?.message;
+        response.code = 200;
+        response.token = result?.token;
+
+        return response;
+      } catch (e) {
+        console.log(e);
+        response.message = e.extensions.response.statusText;
+        response.code = e.extensions.response.status;
+        return response;
+      }
+    },
+  },
 };
 
 module.exports = resolvers;

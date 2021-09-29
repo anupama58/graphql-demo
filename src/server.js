@@ -9,6 +9,8 @@ const { resolvers } = require("./resolver");
 const { typeDefs } = require("./schema");
 const BASE_URL = config.get('BASE_URL');
 const HTTP_TIMEOUT = config.get('HTTP_TIMEOUT');
+const UserAPI  = require('./api/users-api');
+
 
 async function startApolloServer() {
   const app = express();
@@ -39,6 +41,12 @@ async function startApolloServer() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    dataSources: () => {
+      return {
+        userApi: new UserAPI(),
+      };
+    },
+
     // plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
   await server.start();

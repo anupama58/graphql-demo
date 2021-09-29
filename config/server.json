@@ -1,5 +1,0 @@
-{
-    "API_URL": "http://localhost", 
-    "HTTP_PORT": 3000,
-    "HTTP_TIMEOUT": 3000000
-}
