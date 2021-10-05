@@ -22,6 +22,19 @@ class UserAPI extends RESTDataSource {
       loginCred // request body
     );
   }
+
+  async update(id,firstname,lastname,mobile){
+    const updateData = {
+      firstname: firstname,
+      lastname: lastname,
+      mobile: mobile
+    };
+    console.log("updateData", updateData);
+    return this.patch(
+      `${id}/update`, // path
+      updateData // request body
+    );
+  }
 }
 
 module.exports = UserAPI;

@@ -37,6 +37,7 @@ const query = `
     }
 `;
 const variables = {
+    name:'raaj',
     username: 'raj',
     password: 'pass@123'
 };

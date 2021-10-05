@@ -5,50 +5,32 @@ const { addMocksToSchema, mockServer } = require('@graphql-tools/mock');
 const { typeDefs: schema } = require('../src/schema');
 const { resolvers: mocks } = require('../src/resolver');
 
-// const schema = makeExecutableSchema({ `
-//     type Query {
-//         """
-//             This returns an array of Tags from the database
-//         """
-//         tags: [Tag]
-//     }
-//     type Tag {
-//         id: Int!
-//         tag: String!
-//     }
-// `});
 
-// const tagString = 'Hello';
-
-// const mocks = {
-//     Tag: () => ({
-//         tag: tagString,
-//     }),
-// };
 
 const server = mockServer(schema, mocks, false);
-
+console.log("server=========",server);
 const query = `
-    query greetUser($name: String!) {
-        greetUser(name: $name) {
+    mutation login ($username: String!, $password: String!) {
+        userLogin(username: $username, password: $password) {
             message
-            statusCode
+            token
         }
     }
 `;
 const variables = {
-    name: 'raj',
     username: 'raj',
     password: 'pass@123'
 };
 
+beforeAll(() => server.listen());
+
+
 test('query should return data', async () => {
     try {
-        console.info(server.query)
         const response = await server.query(query, variables);
-        console.log('==========================================', response.data.greetUser);
+        console.log('==========================================', response);
     } catch (err) {
-        console.log(err);
+//        console.log(err);
     }
     // expect(response.data.greetUser).to.have.property('message');
 });

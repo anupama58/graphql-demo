@@ -13,6 +13,11 @@ type AuthToken {
   code: Int!
 }
 
+type UpdateResult{
+  message:String!
+  result:Int!
+}
+
 type greetUserResponse {
   message: String!
   statusCode: Int!
@@ -20,13 +25,13 @@ type greetUserResponse {
 
 type Query {
   users: [User]
-  user(id: ID!): User
+  user(id:Int!): User
   greetUser(name: String!): greetUserResponse
 }
 
 type Mutation {
   signup(
-    firstname: String!
+    firstname: String! 
     lastname: String!
     username: String!
     email: String!
@@ -34,4 +39,5 @@ type Mutation {
     mobile: String!
   ): AuthToken
   userLogin(username: String!, password: String!): AuthToken
+  updateUser(id:Int,firstname:String, lastname:String,mobile:String):UpdateResult
 }
